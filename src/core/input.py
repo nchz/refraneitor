@@ -6,6 +6,10 @@ import numpy as np
 import tensorflow as tf
 
 
+BEGIN_TOKEN = "!begin"
+END_TOKEN = "!end"
+
+
 class BatchGenerator(tf.keras.utils.Sequence):
     """Class to handle model input."""
 
@@ -31,7 +35,7 @@ class BatchGenerator(tf.keras.utils.Sequence):
         """Load text from raw_data_path and pad sequences."""
         # load sentences in a list of lists.
         with open(self.raw_data_path) as f:
-            self.raw_data = [sentence.split() for sentence in f.readlines()]
+            self.raw_data = [[BEGIN_TOKEN] + sentence.split() + [END_TOKEN] for sentence in f.readlines()]
 
         # length of a sentence == number of words.
         self.maxlen = max(len(ws) for ws in self.raw_data)

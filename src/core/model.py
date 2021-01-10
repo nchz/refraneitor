@@ -21,11 +21,18 @@ class Refraneitor(tf.keras.models.Sequential):
     ):
         super().__init__()
 
-        self.add(
-            tf.keras.Input(
-                shape=(max_seq_length, word_embedding_dim)
+        if is_training:
+            self.add(
+                tf.keras.Input(
+                    shape=(max_seq_length, word_embedding_dim)
+                )
             )
-        )
+        else:
+            self.add(
+                tf.keras.Input(
+                    shape=(None, word_embedding_dim)
+                )
+            )
 
         # # project input word embeddings to a new space.
         # self.add(tf.keras.layers.Dense(128))

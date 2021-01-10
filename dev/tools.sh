@@ -28,10 +28,17 @@ case ${cmd} in
             ${project_root_dir}
         ;;
 
+    f | download-fasttext-model)
+        ft_model_filename='cc.es.300.bin.gz'
+        curl https://dl.fbaipublicfiles.com/fasttext/vectors-crawl/${ft_model_filename} \
+            -o ${project_root_dir}/fasttext-models/${ft_model_filename}
+        ;;
+
     r | run)
         ${docker_run} --rm -it -p 8888:8888 \
             -v ${project_root_dir}/data:/data \
             -v ${project_root_dir}/src:/src \
+            -v ${project_root_dir}/fasttext-models:/fasttext-models \
             ${project_name} "$@"
         ;;
 

@@ -30,8 +30,7 @@ case ${cmd} in
 
     f | download-fasttext-model)
         ft_model_filename='cc.es.300.bin.gz'
-        curl https://dl.fbaipublicfiles.com/fasttext/vectors-crawl/${ft_model_filename} \
-            -o ${project_root_dir}/fasttext-models/${ft_model_filename}
+        wget https://dl.fbaipublicfiles.com/fasttext/vectors-crawl/${ft_model_filename} - | gunzip > ${project_root_dir}/fasttext-models/${ft_model_filename}
         ;;
 
     r | run)

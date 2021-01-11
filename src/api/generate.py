@@ -26,21 +26,25 @@ def generate_sequence(
 
     model.load_weights(weights_to_load)
 
-    model.summary()
+    # model.summary()
 
-    seq = [ft.get_word_vector(w) for w in initial_seq]
+    R = 10
+    res = [" ".join(initial_seq)] * R
 
     # generate sequence.
-    sample = None
-    while sample != 0:
-        predictions = model.predict_on_batch(np.array([seq])).ravel()
+    for r in range(R):
+        seq = [ft.get_word_vector(w) for w in initial_seq]
+        sample = None
+        while sample != 0 and len(seq) < 30:
+            predictions = model.predict_on_batch(np.array([seq])).ravel()
 
-        if mode == 'prob':
-            sample = np.random.choice(range(vocab_size), p=predictions)
-        elif mode == 'highest':
-            sample = np.argmax(predictions)
+            if mode == 'prob':
+                sample = np.random.choice(range(vocab_size), p=predictions)
+            elif mode == 'highest':
+                sample = np.argmax(predictions)
 
-        next_word = bg.id2word[sample]
-        seq.append(ft.get_word_vector(next_word))
+            next_word = bg.id2word[sample]
+            seq.append(ft.get_word_vector(next_word))
+            res[r] += f" {next_word}"
 
-    return initial_seq
+    return sorted(set(res))

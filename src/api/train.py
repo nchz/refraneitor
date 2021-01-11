@@ -10,6 +10,7 @@ def train_model(
     raw_data_path="/data/dataset.txt",
     fasttext_model_path="/fasttext-models/cc.es.300.bin",
     initial_epoch=0,
+    **kwargs
 ):
     bg = BatchGenerator(
         raw_data_path=raw_data_path,
@@ -22,13 +23,14 @@ def train_model(
         max_seq_length=bg.maxlen,
         word_embedding_dim=bg.dataset[0][0].shape[1],
         vocab_size=len(bg.vocab),
+        **kwargs
     )
 
     refraneitor.summary()
 
     callbacks = [
         tf.keras.callbacks.ModelCheckpoint(
-            filepath="/data/dumps/weights-{epoch:02}.h5",
+            filepath="/data/dumps/weights-{epoch:03}.h5",
             monitor="acc",
             # save_best_only=True,
             save_weights_only=True,

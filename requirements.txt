@@ -1,4 +1,4 @@
-aiohttp==3.7.3
-lxml==4.6.2
-matplotlib==3.3.3
-pandas==1.1.5
+aiohttp==3.7.*
+lxml==4.6.*
+matplotlib==3.3.*
+pandas==1.1.*
